@@ -9,7 +9,6 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -51,8 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private void setview() {
         btn = (Button) findViewById(R.id.btn1);
         btn.setOnClickListener(this);
-        btn2 = (Button) findViewById(R.id.btn2);
-        btn2.setOnClickListener(this);
+
         btn3 = (Button) findViewById(R.id.btn3);
         btn3.setOnClickListener(this);
         img = (ImageView) findViewById(R.id.img);
@@ -86,13 +84,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             /*
             *  MediaStore这个类是android系统提供的一个多媒体数据库，android中多媒体信息都可以从这里提取。
             * */
-            case R.id.btn2:
-                intent = new Intent();
-                intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
 
-
-                startActivityForResult(intent,PHONE);
-                break;
             case R.id.btn3:
                 int width = bm.getWidth();
                 int height = bm.getHeight();

@@ -3,4 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <declare-styleable name="gifCommon">
+        <attr name="gif_src" format="reference" />
+        <attr name="decode_stream" format="boolean" />
+        <attr name="default_animation_time" format="integer" />
+    </declare-styleable>
+
+
 </resources>
