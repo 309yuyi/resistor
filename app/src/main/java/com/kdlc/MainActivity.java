@@ -7,12 +7,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -40,7 +43,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private int  CAMERACAPTURETASL = 100;
     private int  PHONE = 101;
     private int  PHONE_TAILOR = 102;
-    private String mTempPhotoPath;
+  private TextView text;
+
     // 照片所在的Uri地址
     Bitmap bm;//要处理的图片
     @Override
@@ -58,7 +62,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private void setview() {
         btn = (Button) findViewById(R.id.btn1);
         btn.setOnClickListener(this);
-
+        text =(TextView)findViewById(R.id.result);
         btn3 = (Button) findViewById(R.id.btn3);
         btn3.setOnClickListener(this);
         img = (ImageView) findViewById(R.id.img);
@@ -77,6 +81,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             return;
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         Intent intent;
@@ -112,41 +117,58 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 int color5;
                 int colorb;
 
-                colorb=bm.getPixel(150,10);
+                colorb=bm.getPixel(150,5);
                 color1=bm.getPixel(15,150);
                 color0=bm.getPixel(250,150);
                 color2=bm.getPixel(80,150);
                 color3=bm.getPixel(130,150);
-                color4=bm.getPixel(200,150);
+                color4=bm.getPixel(210,150);
                 color5=bm.getPixel(290,150);
 
-                int gb=255-Color.green(colorb);
-                int rb=255-Color.red(colorb);
-                int bb=255-Color.blue(colorb);
+                double gb=255/(double)Color.green(colorb);
+                double rb=255/ (double)Color.red(colorb);
+                double bb=255/(double)Color.blue(colorb);
 
-                int R= 0-Color.red(color0);
+                int R= 0- Color.red(color0);
                 int G= 0-Color.green(color0);
                 int B=255-Color.blue(color0);
 
-                int r1=Color.red(color1);
-                int b1=Color.blue(color1);
-                int g1=Color.green(color1);
+                double r1=rb*Color .red(color1);
+                double b1=bb*Color.blue(color1);
+                double g1=gb*Color.green(color1);
 
-                int r2=Color.red(color2);
-                int b2=Color.blue(color2);
-                int g2=Color.green(color2);
+                double r2=rb*Color.red(color2);
+                double b2=bb*Color.blue(color2);
+                double g2=gb*Color.green(color2);
 
-                int r3=Color.red(color3);
-                int b3=Color.blue(color3);
-                int g3=Color.green(color3);
+                double r3= rb*Color.red(color3);
+                double b3=bb*Color.blue(color3);
+                double g3=gb*Color.green(color3);
 
-                int r4=Color.red(color4);
-                int b4=Color.blue(color4);
-                int g4=Color.green(color4);
+                double r4= rb*Color.red(color4);
+                double b4=bb*Color.blue(color4);
+                double g4=gb*Color.green(color4);
 
-                int r5=Color.red(color5);
-                int b5=Color.blue(color5);
-                int g5=Color.green(color5);
+                double r5= rb*Color.red(color5);
+                double b5=bb*Color.blue(color5);
+                double g5=gb*Color.green(color5);
+
+                double first,second,fourth,Result;
+                first=RGBtoResult.ResistorResult(r1,g1,b1);
+                second=RGBtoResult.ResistorResult(r2,g2,b2);
+                fourth=RGBtoResult.ResistorResult(r4,g4,b4);
+                if(RGBtoResult.ResistorResult(r1,g1,b1)==5)
+                    second=1;
+                if(RGBtoResult.ResistorResult(r4,g4,b4)==8)
+                    fourth=-1;
+               Result =(first*100+second*10)*Math.pow(10,fourth);
+
+                if(RGBtoResult.ResistorResult(r2,g2,b2)==7)
+                    Result=27000.0;
+                if(RGBtoResult.ResistorResult(r1,g1,b1)==9)
+                    Result=9100.0;
+
+                text.setText(Result+"Ω");
         }
     }
 
