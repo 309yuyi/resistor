@@ -14,12 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 /*
 * DOTO
@@ -34,6 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private Button btn2;
     private Button btn3;
     private ImageView img;
+    private ImageView gif;
     public String filePath;
     private int  CAMERACAPTURETASL = 100;
     private int  PHONE = 101;
@@ -46,6 +48,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setview();
+        //设置gif
+        RequestOptions options = new RequestOptions()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+        Glide.with(this).load(R.drawable.gifpicture).apply(options).into(gif);
+
     }
     private void setview() {
         btn = (Button) findViewById(R.id.btn1);
@@ -54,6 +61,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         btn3 = (Button) findViewById(R.id.btn3);
         btn3.setOnClickListener(this);
         img = (ImageView) findViewById(R.id.img);
+        gif=(ImageView)findViewById(R.id.gif);
         Bitmap bitmap0=BitmapFactory.decodeResource(getResources(),R.drawable.bg);
         img.setImageBitmap(bitmap0);
         //保存图片的路径
@@ -199,29 +207,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
         return bm;
     }
-    private void saveImg(Bitmap bitmaps) {
-        //这一块是重要，把获得的图片保存到本地，下次就不用再次加载
-        File file = new File(filePath);
 
-            try {
-                if(!file.exists()){//判断文件是否存在
-                file.createNewFile();//不存在就
-                }else {
-                    //输出流
-                    FileOutputStream out = new FileOutputStream(file);
-                    /*
-                    *mBitmap.compress 压缩图片
-                    * */
-                    bitmaps.compress(Bitmap.CompressFormat.PNG,100,out);
-                    out.flush();
-                    out.flush();
-                    out.close();
-                    Log.i("Text","file.getAbsoluteFile().toString()________:"+file.getAbsolutePath().toString());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
     private void getImg(Uri uri) {
         //把获得图片进行裁剪保存，把裁剪处理过的图片进行保存到内存和现实到img
         if(uri!=null){
