@@ -53,6 +53,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
         Glide.with(this).load(R.drawable.gifpicture).apply(options).into(gif);
 
+
     }
     private void setview() {
         btn = (Button) findViewById(R.id.btn1);
